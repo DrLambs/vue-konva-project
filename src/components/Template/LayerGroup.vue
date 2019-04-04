@@ -1,9 +1,9 @@
 <template>
-  <div id="LayerShape">
-    <v-layer ref="layer" :layer-type="layerType">
+  <div class="layer-group">
+    <v-layer>
       <v-group
-        ref="group"
-        v-for="config in configs"
+        v-for="(config, index) in configs"
+        :key="index"
         :config="{
           x: config.x + config.width / 2,
           y: config.y + config.height / 2,
@@ -61,7 +61,6 @@
         @click="getCurrent(config.uniqueId)"
       >
         <v-image
-          ref="image"
           :config="{
             x: config.strokeWidth,
             y: config.strokeWidth,
@@ -84,45 +83,47 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
-  name: "LayerShape",
-  props: ["layerType", "configs"],
-  data() {
-    return {
-      ltype: ""
-    };
+  name: "LayerGroup",
+  props: {
+    configs: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
   },
-  mounted: function() {},
   methods: {
+    ...mapMutations([
+      'setConfigType',
+      'current'
+    ]),
     // 获取当前 group
     getCurrent(index) {
-      let _index = parseInt(index);
-      this.ltype = this.$refs.layer.$attrs["layer-type"];
-
       this.configs.forEach(item => {
-        if (parseInt(item["uniqueId"]) === _index) {
+        if (parseInt(item["uniqueId"]) === parseInt(index)) {
           item["disabled"] = true;
-
-          this.$store.commit("current", [item, this.ltype]);
+          this.setConfigType('group');
+          this.current(item);
         }
       });
     },
     // 拖动改变位置
     dragStart(index) {
       this.getCurrent(index);
-      this.$emit("dragStart", [
-        this.$store.state.stage.currentIndex,
-        this.ltype
-      ]);
+      this.$emit("on-dragstart");
     },
     // 拖动改变位置
     dragMove() {
-      this.$emit("dragMove", this.ltype);
+      this.$emit("on-dragmove");
     },
     // 拖动改变位置
     dragEnd() {
-      this.$emit("dragEnd", this.ltype);
+      this.$emit("on-dragend");
     },
+    // 阻止事件冒泡
     dragStartImage(element, e) {
       e.cancelBubble = true;
     },
@@ -135,9 +136,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
-
-
-

@@ -1,0 +1,82 @@
+export default {
+  config: {
+    group: {
+      uniqueId: 0,
+      type: 'rect',
+      x: 10,
+      y: 10,
+      width: 152,
+      height: 244,
+      draggable: true,
+      rotation: 0,
+      scale: 1,
+      disabled: false,
+      side: 300,
+      radius: 150,
+      opacity: 1,
+      stroke: 'transparent',
+      strokeWidth: 1,
+      src: 'http://pic1.win4000.com/mobile/2017-12-04/5a2511c7d9224.jpg'
+    },
+    font: {
+      uniqueId: 0,
+      type: 'font',
+      x: 200,
+      y: 200,
+      width: 198,
+      height: 149,
+      draggable: true,
+      rotation: 0,
+      scale: 1,
+      fontText: '在这里输入文字',
+      fontFamily: 'Sans-serif',
+      fontSize: 24,
+      fontColor: '#6B0402',
+      opacity: 1,
+      disabled: false,
+      stroke: 'transparent',
+      strokeWidth: 1,
+      src: 'http://img2.imgtn.bdimg.com/it/u=4041880862,873301242&fm=214&gp=0.jpg'
+    }
+  },
+  initConfig: {
+    group: {
+      uniqueId: 0,
+      type: 'rect',
+      x: 10,
+      y: 1,
+      width: 152,
+      height: 244,
+      draggable: true,
+      rotation: 0,
+      scale: 1,
+      disabled: false,
+      side: 300,
+      radius: 150,
+      opacity: 1,
+      stroke: 'transparent',
+      strokeWidth: 1,
+      src: 'http://pic1.win4000.com/mobile/2017-12-04/5a2511c7d9224.jpg'
+    },
+    font: {
+      uniqueId: 0,
+      type: 'font',
+      x: 200,
+      y: 200,
+      width: 198,
+      height: 149,
+      draggable: true,
+      rotation: 0,
+      scale: 1,
+      fontText: '在这里输入文字',
+      fontFamily: 'Sans-serif',
+      fontSize: 24,
+      fontColor: '#6B0402',
+      opacity: 1,
+      disabled: false,
+      stroke: 'transparent',
+      strokeWidth: 1,
+      src: 'http://img2.imgtn.bdimg.com/it/u=4041880862,873301242&fm=214&gp=0.jpg'
+    }
+  }
+}

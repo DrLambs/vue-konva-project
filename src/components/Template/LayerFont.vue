@@ -1,9 +1,9 @@
 <template>
-  <div id="layerText">
-    <v-layer ref="layer" :layer-type="layerType">
+  <div class="layer-font">
+    <v-layer>
       <v-group
-        ref="group"
-        v-for="config in configs"
+        v-for="(config, index) in configs"
+        :key="index"
         :config="{
           x: config.x + config.width / 2,
           y: config.y + config.height / 2,
@@ -25,7 +25,6 @@
       >
         <!-- 文字 -->
         <v-text
-          ref="text"
           v-if="config.type === 'font'"
           :config="{
             x: 0,
@@ -40,7 +39,6 @@
 
         <!-- 图片 -->
         <v-image
-          ref="image"
           v-if="config.type === 'image'"
           :config="{
             width: config.width,
@@ -56,44 +54,45 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
-  name: "LayerText",
-  props: ["layerType", "configs"],
-  data() {
-    return {
-      ltype: ""
-    };
+  name: "LayerFont",
+  props: {
+    configs: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
   },
-  mounted: function() {},
   methods: {
+    ...mapMutations([
+      'setConfigType',
+      'current'
+    ]),
     // 获取当前 group
     getCurrent(index) {
-      let _index = parseInt(index);
-      this.ltype = this.$refs.layer.$attrs["layer-type"];
-
       this.configs.forEach(item => {
-        if (parseInt(item["uniqueId"]) === _index) {
+        if (parseInt(item["uniqueId"]) === parseInt(index)) {
           item["disabled"] = true;
-
-          this.$store.commit("current", [item, this.ltype]);
+          this.setConfigType('font');
+          this.current(item);
         }
       });
     },
     // 拖动改变位置
     dragStart(index) {
       this.getCurrent(index);
-      this.$emit("dragStart", [
-        this.$store.state.template.fontCurrentIndex,
-        this.ltype
-      ]);
+      this.$emit("on-dragstart");
     },
     // 拖动改变位置
     dragMove() {
-      this.$emit("dragMove", this.ltype);
+      this.$emit("on-dragmove");
     },
     // 拖动改变位置
     dragEnd() {
-      this.$emit("dragEnd", this.ltype);
+      this.$emit("on-dragend");
     }
   }
 };

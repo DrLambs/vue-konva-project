@@ -4,90 +4,107 @@
     <v-stage
       ref="stage"
       :config="{
-        width: stage.width,
-        height: stage.height
+        width: stageConfig.width,
+        height: stageConfig.height
       }"
-      class="stage-fixed"
     >
       <!-- 底图 -->
-      <v-layer ref="layer">
-        <v-image ref="image" :config="configBackground"></v-image>
+      <v-layer>
+        <v-image :config="stageImage"></v-image>
       </v-layer>
       <!-- 模版框图层 -->
-      <layerTmpShape
-        layerType="group"
-        v-if="gconfigs.length > 0"
-        :configs="gconfigs"
-        @dragStart="dStart"
-        @dragMove="dMove"
-        @dragEnd="dEnd"
-      ></layerTmpShape>
+      <LayerGroup
+        v-if="configList.group.length > 0"
+        :configs="configList.group"
+        @on-dragstart="dragStart"
+        @on-dragmove="dragMove"
+        @on-dragend="dragEnd"
+      ></LayerGroup>
       <!-- 文字图层 -->
-      <layerTmpText
-        layerType="font"
-        v-if="fconfigs.length > 0"
-        :configs="fconfigs"
-        @dragStart="dStart"
-        @dragMove="dMove"
-        @dragEnd="dEnd"
-      ></layerTmpText>
+      <LayerFont
+        v-if="configList.font.length > 0"
+        :configs="configList.font"
+        @on-dragstart="dragStart"
+        @on-dragmove="dragMove"
+        @on-dragend="dragEnd"
+      ></LayerFont>
     </v-stage>
   </div>
 </template>
 
 <script>
-import LayerShape from "./LayerShape";
-import LayerText from "./LayerText";
+import LayerGroup from "./LayerGroup";
+import LayerFont from "./LayerFont";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "stageTmp",
-  props: ["stage", "gconfigs", "fconfigs"],
   components: {
-    LayerShape,
-    LayerText
+    LayerGroup,
+    LayerFont
+  },
+  props: {
+    stageConfig: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   data() {
     return {
       // 底图image对象
-      backgroundImage: new Image()
+      stageImage: {
+        image: new Image()
+      }
     };
   },
   computed: {
-    configBackground() {
-      this.backgroundImage.src = this.stage.url;
-      this.backgroundImage.width = this.stage.width;
-      this.backgroundImage.height = this.stage.height;
-
-      return {
-        image: this.backgroundImage
-      };
+    ...mapState({
+      configList: state => state.template.configList,
+      currentId: state => state.template.currentId
+    })
+  },
+  created () {
+    if (this.stageImage.image.complete) {
+      this.stageImage.image.src = this.stageConfig.url;
+      this.stageImage.image.width = this.stageConfig.width;
+      this.stageImage.image.height = this.stageConfig.height;
     }
   },
   methods: {
-    // 拖动改变位置
-    dStart([index, type]) {
-      let posX = this.$refs.stage.getStage().getPointerPosition().x;
-      let posY = this.$refs.stage.getStage().getPointerPosition().y;
-
-      this.$store.commit("start", [posX, posY, type]);
+    ...mapMutations([
+      'getStageImage',
+      "start",
+      "move",
+      "end"
+    ]),
+    getPosition() {
+      let pos = {};
+      pos.x = this.$refs.stage.getStage().getPointerPosition().x;
+      pos.y = this.$refs.stage.getStage().getPointerPosition().y;
+      return pos;
     },
-    // 拖动改变位置
-    dMove(type) {
-      let posX = this.$refs.stage.getStage().getPointerPosition().x;
-      let posY = this.$refs.stage.getStage().getPointerPosition().y;
-
-      this.$store.commit("move", [posX, posY, type]);
+    dragStart() {
+      this.start(this.getPosition());
     },
-    // 拖动改变位置
-    dEnd(type) {
-      let posX = this.$refs.stage.getStage().getPointerPosition().x;
-      let posY = this.$refs.stage.getStage().getPointerPosition().y;
-
-      this.$store.commit("end", [posX, posY, type]);
+    dragMove() {
+      this.move(this.getPosition());
+    },
+    dragEnd() {
+      this.end(this.getPosition());
     }
   }
 };
 </script>
 
-
-
+<style lang="less" scoped>
+.stage-template {
+  border: 1px solid #dcdee2;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+}
+</style>

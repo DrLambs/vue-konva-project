@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Header style="color: #fff; font-size: 18px;">Vue-Konva-Project</Header>
     <CreateTemplate></CreateTemplate>
   </div>
 </template>
