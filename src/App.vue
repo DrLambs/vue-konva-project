@@ -4,7 +4,7 @@
       <div class="logo">Vue-Konva-Project</div>
       <div class="nav">
         <router-link to="/">创建模板</router-link> |
-        <router-link to="/about">渲染模板</router-link>
+        <router-link to="/material">渲染模板</router-link>
       </div>
     </Header>
     <router-view/>

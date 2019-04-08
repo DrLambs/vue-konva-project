@@ -1,32 +1,22 @@
 <template>
-  <Layout class="create-stage ad-tabs content-bg">
+  <Layout class="create-stage">
     <!-- 创建模板: 配置 -->
-    <Sider  class="template-config" style="min-width: 300px; max-width: 300px; width: 300px; overflow: auto;">
+    <Sider
+      class="template-config"
+      style="min-width: 300px; max-width: 300px; width: 300px; overflow: auto;"
+    >
       <!-- 模版名称 -->
       <div class="config-item">
-        <Form
-          :model="stageName"
-          :rules="nameRules"
-          :label-width="60"
-        >
+        <Form :model="stageName" :rules="nameRules" :label-width="60">
           <FormItem prop="name" label="名称">
-            <Input
-              type="text"
-              v-model="stageName.name"
-              :clearable="true"
-              placeholder="请输入模版名称"
-            />
+            <Input type="text" v-model="stageName.name" :clearable="true" placeholder="请输入模版名称"/>
           </FormItem>
         </Form>
       </div>
       <!-- 画布配置 -->
       <div class="config-item">
         <p class="title">画布配置</p>
-        <Form
-          :model="stageConfig"
-          :rules="stageRules"
-          :label-width="60"
-        >
+        <Form :model="stageConfig" :rules="stageRules" :label-width="60">
           <FormItem prop="width" label="宽">
             <InputNumber
               type="text"
@@ -61,39 +51,33 @@
       <!-- 模版框配置 -->
       <div name="config-item">
         <p class="title">模版框配置</p>
-        <StageConfig
-          configType="group"
-          :typeList="shapeList"
-        ></StageConfig>
+        <TemplateCreateConfig configType="group" :typeList="shapeList"></TemplateCreateConfig>
       </div>
       <!-- 装饰配置 -->
       <div name="config-item">
         <p class="title">装饰配置</p>
-        <StageConfig
-          configType="font"
-          :typeList="decorationList"
-        ></StageConfig>
+        <TemplateCreateConfig configType="font" :typeList="decorationList"></TemplateCreateConfig>
       </div>
       <Button @click="saveStage" style="margin-left: 55px;">保存模版</Button>
     </Sider>
     <!-- 创建模板: 预览 -->
     <Content class="template-sences">
-      <StageTmp ref="StageTmp"></StageTmp>
+      <TemplateCreateStage ref="TemplateCreateStage" :stageConfig="stageConfig"></TemplateCreateStage>
     </Content>
   </Layout>
 </template>
 
 <script>
-import list from "../../libs/list.js";
+import list from "../libs/list.js";
 import { mapState } from "vuex";
-import StageConfig from "./StageConfig.vue";
-import StageTmp from "./StageTmp.vue";
+import TemplateCreateConfig from "./TemplateCreateConfig.vue";
+import TemplateCreateStage from "./TemplateCreateStage";
 
 export default {
-  name: "CreateTemplate",
+  name: "TemplateCreate",
   components: {
-    StageConfig,
-    StageTmp
+    TemplateCreateConfig,
+    TemplateCreateStage
   },
   data() {
     // 数字
@@ -135,7 +119,7 @@ export default {
   },
   computed: {
     ...mapState({
-      // stage 表单
+      // 底图
       stageConfig: state => state.template.stageConfig,
       // 配置列表
       configList: state => state.template.configList
@@ -164,7 +148,7 @@ export default {
     saveStage() {
       // 模版配置 json
       for (let prop in this.configList) {
-        this.configList[prop].forEach(item => item.draggable = false);
+        this.configList[prop].forEach(item => (item.draggable = false));
       }
       this.stageJson = {
         name: this.stageName.name,
@@ -177,14 +161,18 @@ export default {
         thumbnails: "" // 模板预览图片，先将创建的模板处理成图片文件发给后台，存储返回成功后的 url
       };
 
-      const canvas = this.$refs.StageTmp.$refs.stage.getStage().toCanvas();
+      const canvas = this.$refs.TemplateCreateStage.$refs.stage.getStage().toCanvas();
       // 有跨域的图片 toBlob 会报错
-      const blob = canvas.toBlob(function(blob){
-        console.log(blob)
-        // 存储预览图片
-      }, "image/jpeg", 0.95);
+      const blob = canvas.toBlob(
+        function(blob) {
+          console.log(blob);
+          // 存储预览图片
+        },
+        "image/jpeg",
+        0.95
+      );
       // 存储配置
-      localStorage.setItem('_stage_json', JSON.stringify(this.stageJson));
+      localStorage.setItem("_stage_json", JSON.stringify(this.stageJson));
     }
   }
 };

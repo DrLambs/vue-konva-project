@@ -100,29 +100,22 @@
       </FormItem>
       <!-- 旋转 -->
       <FormItem prop="rotation" label="旋转">
-        <div class="slider-box">
-          <Slider
-            v-model="config.rotation"
-            :tip-format="rotateTips"
-            @on-change="handleRotate(config.rotation)"
-          ></Slider>
-        </div>
+        <CommonSliderBar :form="config" unit="Deg"></CommonSliderBar>
       </FormItem>
       <!-- 缩放 -->
       <FormItem prop="scale" label="缩放">
-        <div class="slider-box">
-          <Slider v-model="config.scale" :tip-format="scaleTips" @on-change="handleScale(config.scale)"></Slider>
-        </div>
+        <CommonSliderBar :form="config" unit="%"></CommonSliderBar>
       </FormItem>
     </Form>
   </div>
 </template>
 
 <script>
-import list from "../../libs/list.js";
+import list from "../libs/list.js";
+import util from "../libs/util.js";
 import _ from "lodash";
-import util from "../../libs/util.js";
 import { mapMutations } from "vuex";
+import CommonSliderBar from "./CommonSliderBar";
 
 // ID 累加器
 function* idMaker() {
@@ -132,7 +125,10 @@ function* idMaker() {
 }
 
 export default {
-  name: "stageConfig",
+  name: "TemplateCreateConfig",
+  components: {
+    CommonSliderBar
+  },
   props: {
     // 模板框配置/装饰配置
     configType: {
@@ -227,38 +223,15 @@ export default {
         }
       }
     },
-    // 旋转滑块
-    handleRotate(val) {
-      this.config.rotation = val;
-    },
-    // 旋转滑块提示文字
-    rotateTips(val) {
-      return Math.floor((val / 100) * 360) + " Deg";
-    },
-    // 缩放滑块
-    handleScale(val) {
-      this.config.scale = val;
-    },
-    // 缩放滑块提示文字
-    scaleTips(val) {
-      return (1 + val / 100).toFixed(2) + " %";
-    },
-    // 创建 image 对象
-    newImage(src) {
-      let img = new Image();
-      img.src = src;
-      return img;
-    },
     // 克隆当前表单对象
     getCloneConfig() {
       const clone = _.cloneDeep(this.config);
-      clone.img = this.newImage(clone.src);
+      clone.img = util.newImage(clone.src);
       clone.stroke = "transparent";
       return clone;
     },
     // 上传模板框图片
     async upload() {
-      console.log("上传图片");
       // 上传成功后获取图片信息
       /** this.config.src = data.src;
        *  let img = new Image();
@@ -268,7 +241,7 @@ export default {
           };
           img.src = this.config.url;
       */
-      this.iClick = false;
+      // this.iClick = false;
     },
     handleUpload(file) {
       this.iClick = true;
