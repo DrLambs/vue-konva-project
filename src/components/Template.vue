@@ -3,7 +3,7 @@
     <!-- 创建模板: 配置 -->
     <Sider
       class="template-config"
-      style="min-width: 300px; max-width: 300px; width: 300px; overflow: auto;"
+      style="min-width: 300px; max-width: 300px; width: 300px; overflow-y: auto; overflow-x: hidden;"
     >
       <!-- 模版名称 -->
       <div class="config-item">
@@ -18,66 +18,47 @@
         <p class="title">画布配置</p>
         <Form :model="stageConfig" :rules="stageRules" :label-width="60">
           <FormItem prop="width" label="宽">
-            <InputNumber
-              type="text"
-              v-model="stageConfig.width"
-              :clearable="true"
-              placeholder="请输入画布宽度"
-            ></InputNumber>
+            <InputNumber v-model="stageConfig.width" :clearable="true" placeholder="请输入画布宽度"></InputNumber>
           </FormItem>
           <FormItem prop="height" label="高">
-            <InputNumber
-              type="text"
-              v-model="stageConfig.height"
-              :clearable="true"
-              placeholder="请输入画布高度"
-            ></InputNumber>
+            <InputNumber v-model="stageConfig.height" :clearable="true" placeholder="请输入画布高度"></InputNumber>
           </FormItem>
           <FormItem prop="url" label="URL">
-            <Input
-              type="text"
-              v-model="stageConfig.url"
-              :clearable="true"
-              placeholder="请输入画布背景图片地址"
-            />
-          </FormItem>
-          <FormItem prop="upimg" label="上传">
-            <Upload ref="upload" action="/" accept="image/*" :before-upload="handleUpload">
-              <Button icon="ios-cloud-upload-outline">上传图片</Button>
-            </Upload>
+            <Input type="textarea" :rows="6" v-model="stageConfig.url" placeholder="请输入画布背景图片地址"/>
           </FormItem>
         </Form>
       </div>
       <!-- 模版框配置 -->
       <div name="config-item">
         <p class="title">模版框配置</p>
-        <TemplateCreateConfig configType="group" :typeList="shapeList"></TemplateCreateConfig>
+        <TemplateConfig configType="group" :typeList="shapeList"></TemplateConfig>
       </div>
       <!-- 装饰配置 -->
       <div name="config-item">
         <p class="title">装饰配置</p>
-        <TemplateCreateConfig configType="font" :typeList="decorationList"></TemplateCreateConfig>
+        <TemplateConfig configType="font" :typeList="decorationList"></TemplateConfig>
       </div>
-      <Button @click="saveStage" style="margin-left: 55px;">保存模版</Button>
+      <Button @click="saveStage" style="margin-left: 55px;margin-bottom: 30px;">保存模版</Button>
     </Sider>
     <!-- 创建模板: 预览 -->
     <Content class="template-sences">
-      <TemplateCreateStage ref="TemplateCreateStage" :stageConfig="stageConfig"></TemplateCreateStage>
+      <TemplateStage ref="TemplateStage" :stageConfig="stageConfig"></TemplateStage>
     </Content>
   </Layout>
 </template>
 
 <script>
+import util from "../libs/util.js";
 import list from "../libs/list.js";
 import { mapState } from "vuex";
-import TemplateCreateConfig from "./TemplateCreateConfig.vue";
-import TemplateCreateStage from "./TemplateCreateStage";
+import TemplateConfig from "./TemplateConfig.vue";
+import TemplateStage from "./TemplateStage";
 
 export default {
-  name: "TemplateCreate",
+  name: "Template",
   components: {
-    TemplateCreateConfig,
-    TemplateCreateStage
+    TemplateConfig,
+    TemplateStage
   },
   data() {
     // 数字
@@ -126,24 +107,6 @@ export default {
     })
   },
   methods: {
-    // 上传画布图片
-    upload() {
-      // console.log("上传画布图片");
-      // 上传成功后将图片地址，宽，高信息赋给 stageConfig
-      /** this.stageConfig.url = data.url;
-       *  let tmpImg = new Image();
-          tmpImg.onload = function() {
-            this.stageConfig.width = tmpImg.width;
-            this.stageConfig.height = tmpImg.height;
-          };
-          tmpImg.src = this.stageConfig.url;
-      */
-    },
-    handleUpload(file) {
-      this.file = file;
-      this.upload();
-      return false;
-    },
     // 保存模版
     saveStage() {
       // 模版配置 json
@@ -161,12 +124,12 @@ export default {
         thumbnails: "" // 模板预览图片，先将创建的模板处理成图片文件发给后台，存储返回成功后的 url
       };
 
-      const canvas = this.$refs.TemplateCreateStage.$refs.stage.getStage().toCanvas();
+      const canvas = this.$refs.TemplateStage.$refs.stage.getStage().toCanvas();
       // 有跨域的图片 toBlob 会报错
-      const blob = canvas.toBlob(
+      canvas.toBlob(
         function(blob) {
-          console.log(blob);
           // 存储预览图片
+          util.showSuccess(`success: ${blob}`);
         },
         "image/jpeg",
         0.95

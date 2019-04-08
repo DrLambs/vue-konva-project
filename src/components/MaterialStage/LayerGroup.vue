@@ -82,8 +82,8 @@
               image: config.vImage.img,
               draggable: true
             }"
-          @mousedown="getCurrent(config.vImage.uniqueId, index)"
-          @dragstart="dragStart(config.vImage.uniqueId, index)"
+          @mousedown="getCurrent(config.vImage.uniqueId)"
+          @dragstart="dragStart(config.vImage.uniqueId)"
           @dragmove="dragMove"
           @dragend="dragEnd"
         />
@@ -110,15 +110,12 @@ export default {
       'setImageId'
     ]),
     // 当前选择的 v-image
-    getCurrent(id, index) {
+    getCurrent(id) {
       this.setImageId(id);
-      if (index) {
-        this.$emit("on-mousedown", index);
-      }
     },
     // dragsrat 鼠标位置
-    dragStart(id, index) {
-      this.getCurrent(id, index);
+    dragStart(id) {
+      this.getCurrent(id);
       this.$emit("on-dragstart");
     },
     // dragmove

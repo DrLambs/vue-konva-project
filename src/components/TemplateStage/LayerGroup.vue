@@ -17,7 +17,7 @@
           },
           width: config.width,
           height: config.height,
-          rotation: config.rotation * 3.6,
+          rotation: config.rotation,
           draggable: config.draggable,
           clipFunc: function(ctx) {
             // 矩形

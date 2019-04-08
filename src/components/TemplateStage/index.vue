@@ -10,7 +10,7 @@
     >
       <!-- 底图 -->
       <v-layer>
-        <v-image :config="stageImageConfig"></v-image>
+        <v-image :config="{image: image, width: stageConfig.width, height: stageConfig.height}"></v-image>
       </v-layer>
       <!-- 模版框图层 -->
       <LayerGroup
@@ -38,7 +38,7 @@ import LayerFont from "./LayerFont";
 import { mapState, mapMutations } from "vuex";
 
 export default {
-  name: 'TemplateCreateStage',
+  name: "TemplateStage",
   components: {
     LayerGroup,
     LayerFont
@@ -51,28 +51,29 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      image: null
+    };
+  },
   computed: {
     ...mapState({
       // 配置列表
       configList: state => state.template.configList,
       // 当前 id
       currentId: state => state.template.currentId
-    }),
-    stageImageConfig () {
-      let _img = new Image();
-      _img.src = this.stageConfig.url;
-      _img.width = this.stageConfig.width;
-      _img.height = this.stageConfig.height;
-      return { image: _img };
-    }
+    })
+  },
+  created() {
+    const image = new window.Image();
+    image.src = this.stageConfig.url;
+    image.onload = () => {
+      // set image only when it is loaded
+      this.image = image;
+    };
   },
   methods: {
-    ...mapMutations([
-      'getStageImage',
-      "start",
-      "move",
-      "end"
-    ]),
+    ...mapMutations(["getStageImage", "start", "move", "end"]),
     getPosition() {
       let pos = this.$refs.stage.getStage().getPointerPosition();
       return pos;

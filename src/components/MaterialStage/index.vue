@@ -9,21 +9,20 @@
       }"
     >
       <!-- 底图 -->
-      <v-layer ref="layer">
-        <v-image ref="image" :config="stageImageConfig"></v-image>
+      <v-layer>
+        <v-image :config="{image: image, width: stageConfig.width, height: stageConfig.height}"></v-image>
       </v-layer>
 
       <!-- 模版框图层 -->
       <LayerGroup
         v-if="configList.group.length > 0"
         :configs="configList.group"
-        @on-mousedown="handleMouseDown"
         @on-dragstart="dragStart"
         @on-dragmove="dragMove"
         @on-dragend="dragEnd"
       ></LayerGroup>
       <!-- 文字图层 -->
-      <LayerFont v-if="configList.font.length > 0" :configs="configList.font"></LayerFont>
+      <LayerFont v-if="configList.font.length > 0 && iVisible" :configs="configList.font"></LayerFont>
     </v-stage>
   </div>
 </template>
@@ -31,11 +30,10 @@
 <script>
 import LayerGroup from "./LayerGroup";
 import LayerFont from "./LayerFont";
-import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
-  name: "MaterialCreateStage",
-  // props: ["stage", "gconfigs", "fconfigs", "index", "iVisible"],
+  name: "MaterialStage",
   props: {
     stageConfig: {
       type: Object,
@@ -48,6 +46,10 @@ export default {
       default() {
         return {};
       }
+    },
+    iVisible: {
+      type: Boolean,
+      default: true
     }
   },
   components: {
@@ -56,19 +58,16 @@ export default {
   },
   data() {
     return {
-      // 背景 image对象
-      backgroundImage: new Image()
+      image: null
     };
   },
-  computed: {
-    // 背景 config
-    stageImageConfig () {
-      let _img = new Image();
-      _img.src = this.stageConfig.url;
-      _img.width = this.stageConfig.width;
-      _img.height = this.stageConfig.height;
-      return { image: _img };
-    }
+  created () {
+    const image = new window.Image();
+    image.src = this.stageConfig.url;
+    image.onload = () => {
+      // set image only when it is loaded
+      this.image = image;
+    };
   },
   methods: {
     ...mapMutations([
@@ -80,11 +79,8 @@ export default {
       let pos = this.$refs.stage.getStage().getPointerPosition();
       return pos;
     },
-    handleMouseDown(index) {
-      console.log(index)
-    },
     // dragsrat 鼠标位置
-    dragStart(id, index) {
+    dragStart() {
       this.start(this.getPosition());
     },
     // dragmove

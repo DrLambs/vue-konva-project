@@ -5,7 +5,7 @@ const template = {
 		stageConfig: {
 			width: 960,
 			height: 600,
-			url: "http://uploads.5068.com/allimg/1712/144-1G2091PJ9.jpg"
+			url: "http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/27/c0/16922564_1356570216970.jpg"
 		},
 		// config 类型: 模板框/装饰
 		configType: 'group',
@@ -75,7 +75,7 @@ const template = {
 				item.stroke = 'transparent';
 			});
 			state.config[state.configType] = config;
-			state.config[state.configType].stroke = '#DE421A';
+			state.config[state.configType].stroke = '#0051FF';
 			state.currentId[state.configType] = config.uniqueId;
 		},
 		start(state, {x, y}) {

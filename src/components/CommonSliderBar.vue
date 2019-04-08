@@ -61,7 +61,7 @@ export default {
           this.numTrans =
             this.dragLeft === ""
               ? 0
-              : ((left - oSliderWidth / 2) * 180) / (oSliderWidth / 2);
+              : parseInt(((left - oSliderWidth / 2) * 180) / (oSliderWidth / 2));
           this.form.rotation = this.numTrans;
           this.numTooltip = this.numTrans;
         }

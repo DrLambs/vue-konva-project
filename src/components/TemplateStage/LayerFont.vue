@@ -7,7 +7,7 @@
         :config="{
           x: config.x + config.width / 2,
           y: config.y + config.height / 2,
-          rotation: config.rotation * 3.6,
+          rotation: config.rotation,
           scale: {
             x: (1 + config.scale / 100 ).toFixed(2),
             y: (1 + config.scale / 100 ).toFixed(2)
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "LayerFont",

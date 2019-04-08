@@ -5,7 +5,7 @@ export default {
       type: 'rect',
       x: 10,
       y: 10,
-      width: 152,
+      width: 188,
       height: 244,
       draggable: true,
       rotation: 0,
@@ -16,14 +16,14 @@ export default {
       opacity: 1,
       stroke: 'transparent',
       strokeWidth: 1,
-      src: 'http://pic1.win4000.com/mobile/2017-12-04/5a2511c7d9224.jpg'
+      src: 'http://uploads.5068.com/allimg/1712/151-1G204111207.jpg'
     },
     font: {
       uniqueId: 0,
       type: 'font',
       x: 200,
       y: 200,
-      width: 198,
+      width: 238,
       height: 149,
       draggable: true,
       rotation: 0,
@@ -31,12 +31,12 @@ export default {
       fontText: '在这里输入文字',
       fontFamily: 'Sans-serif',
       fontSize: 24,
-      fontColor: '#6B0402',
+      fontColor: '#70FFF5',
       opacity: 1,
       disabled: false,
       stroke: 'transparent',
       strokeWidth: 1,
-      src: 'http://img2.imgtn.bdimg.com/it/u=4041880862,873301242&fm=214&gp=0.jpg'
+      src: 'http://i0.hdslb.com/bfs/archive/f4a71b18ad07fc0117589236dd46ee800d793829.jpg'
     }
   },
   initConfig: {
@@ -45,7 +45,7 @@ export default {
       type: 'rect',
       x: 10,
       y: 1,
-      width: 152,
+      width: 188,
       height: 244,
       draggable: true,
       rotation: 0,
@@ -56,14 +56,14 @@ export default {
       opacity: 1,
       stroke: 'transparent',
       strokeWidth: 1,
-      src: 'http://pic1.win4000.com/mobile/2017-12-04/5a2511c7d9224.jpg'
+      src: 'http://uploads.5068.com/allimg/1712/151-1G204111207.jpg'
     },
     font: {
       uniqueId: 0,
       type: 'font',
       x: 200,
       y: 200,
-      width: 198,
+      width: 238,
       height: 149,
       draggable: true,
       rotation: 0,
@@ -71,12 +71,12 @@ export default {
       fontText: '在这里输入文字',
       fontFamily: 'Sans-serif',
       fontSize: 24,
-      fontColor: '#6B0402',
+      fontColor: '#70FFF5',
       opacity: 1,
       disabled: false,
       stroke: 'transparent',
       strokeWidth: 1,
-      src: 'http://img2.imgtn.bdimg.com/it/u=4041880862,873301242&fm=214&gp=0.jpg'
+      src: 'http://i0.hdslb.com/bfs/archive/f4a71b18ad07fc0117589236dd46ee800d793829.jpg'
     }
   }
 }

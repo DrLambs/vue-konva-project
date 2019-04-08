@@ -16,8 +16,7 @@
               x: config.width / 2,
               y: config.height / 2,
             },
-            draggable: false,
-            visible: iVisible
+            draggable: false
           }"
       >
         <!-- 文字 -->
