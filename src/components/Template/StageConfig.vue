@@ -201,9 +201,9 @@ export default {
     saveGroup() {
       // 设置当前配置类型: group/font
       this.setConfigType(this.configType);
-      
+
       // 没选中就保存，提示警告信息
-      if (this.config.disabled) {
+      if (!this.config.disabled) {
         util.showWarning("请选中要修改的图层");
         return;
       } else {
@@ -217,14 +217,14 @@ export default {
       this.setConfigType(this.configType);
       
       // 没选中就删除，提示警告信息
-      if (this.config.disabled) {
+      if (!this.config.disabled) {
+        util.showWarning("请选中要删除的图层");
+        return;
+      } else {
         if (window.confirm("确认删除所选图层吗?")) {
           this.remove();
           util.showSuccess("Success!");
         }
-      } else {
-        util.showWarning("请选中要删除的图层");
-        return;
       }
     },
     // 旋转滑块

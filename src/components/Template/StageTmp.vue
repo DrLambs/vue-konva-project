@@ -10,7 +10,7 @@
     >
       <!-- 底图 -->
       <v-layer>
-        <v-image :config="stageImage"></v-image>
+        <v-image :config="stageImageConfig"></v-image>
       </v-layer>
       <!-- 模版框图层 -->
       <LayerGroup
@@ -43,33 +43,23 @@ export default {
     LayerGroup,
     LayerFont
   },
-  props: {
-    stageConfig: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  },
-  data() {
-    return {
-      // 底图image对象
-      stageImage: {
-        image: new Image()
-      }
-    };
-  },
   computed: {
     ...mapState({
+      // 底图
+      stageConfig: state => state.template.stageConfig,
+      // 配置列表
       configList: state => state.template.configList,
+      // 当前 id
       currentId: state => state.template.currentId
-    })
-  },
-  created () {
-    if (this.stageImage.image.complete) {
-      this.stageImage.image.src = this.stageConfig.url;
-      this.stageImage.image.width = this.stageConfig.width;
-      this.stageImage.image.height = this.stageConfig.height;
+    }),
+    stageImageConfig () {
+      let _img = new Image();
+      if (_img.complete) {
+        _img.src = this.stageConfig.url;
+        _img.width = this.stageConfig.width;
+        _img.height = this.stageConfig.height;
+      }
+      return { image: _img };
     }
   },
   methods: {
@@ -80,9 +70,7 @@ export default {
       "end"
     ]),
     getPosition() {
-      let pos = {};
-      pos.x = this.$refs.stage.getStage().getPointerPosition().x;
-      pos.y = this.$refs.stage.getStage().getPointerPosition().y;
+      let pos = this.$refs.stage.getStage().getPointerPosition();
       return pos;
     },
     dragStart() {

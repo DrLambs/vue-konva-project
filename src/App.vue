@@ -1,9 +1,12 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <Header class="header">
+      <div class="logo">Vue-Konva-Project</div>
+      <div class="nav">
+        <router-link to="/">创建模板</router-link> |
+        <router-link to="/about">渲染模板</router-link>
+      </div>
+    </Header>
     <router-view/>
   </div>
 </template>
@@ -17,16 +20,17 @@
   height: 100vh;
   overflow: hidden;
 }
-#nav {
-  padding: 30px;
-  text-align: center;
+.header {
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
 }
-#nav a {
-  font-size: 16px;
-  font-weight: bold;
-  color: #2c3e50;
+.nav a {
+  color: #fff;
+  font-size: 14px;
 }
-#nav a.router-link-exact-active {
-  color: #42b983;
+.nav a:hover, .nav .router-link-exact-active {
+  color: #57a3f3;
 }
 </style>

@@ -5,7 +5,6 @@
       <!-- 模版名称 -->
       <div class="config-item">
         <Form
-          ref="stageNameFrom"
           :model="stageName"
           :rules="nameRules"
           :label-width="60"
@@ -14,7 +13,6 @@
             <Input
               type="text"
               v-model="stageName.name"
-              autofocus
               :clearable="true"
               placeholder="请输入模版名称"
             />
@@ -25,7 +23,6 @@
       <div class="config-item">
         <p class="title">画布配置</p>
         <Form
-          ref="stageConfig"
           :model="stageConfig"
           :rules="stageRules"
           :label-width="60"
@@ -81,10 +78,7 @@
     </Sider>
     <!-- 创建模板: 预览 -->
     <Content class="template-sences">
-      <StageTmp
-        ref="StageTmp"
-        :stageConfig="stageConfig"
-      ></StageTmp>
+      <StageTmp ref="StageTmp"></StageTmp>
     </Content>
   </Layout>
 </template>
@@ -125,12 +119,6 @@ export default {
       nameRules: {
         name: [{ required: true, message: "请填写模板名称", trigger: "blur" }]
       },
-      // stage 表单
-      stageConfig: {
-        width: 960,
-        height: 600,
-        url: "http://uploads.5068.com/allimg/1712/144-1G2091PJ9.jpg"
-      },
       // stage 表单验证
       stageRules: {
         width: [{ required: true, validator: vInteger, trigger: "blur" }],
@@ -147,6 +135,8 @@ export default {
   },
   computed: {
     ...mapState({
+      // stage 表单
+      stageConfig: state => state.template.stageConfig,
       // 配置列表
       configList: state => state.template.configList
     })
@@ -187,46 +177,14 @@ export default {
         thumbnails: "" // 模板预览图片，先将创建的模板处理成图片文件发给后台，存储返回成功后的 url
       };
 
-      // 模版图片-------
-      function dataURLtoBlob(dataurl) {
-        let arr = dataurl.split(","), // data:img/jpg;base64
-          mime = arr[0].match(/:(.*?);/)[1], // img/jpg
-          bstr = atob(arr[1]),
-          n = bstr.length,
-          u8arr = new Uint8Array(n);
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new Blob([u8arr], { type: mime });
-      }
-
-      let dataUrl = this.$refs.stage.$refs.stage.getStage().toDataURL(); // base64
-      let blob = dataURLtoBlob(dataUrl);
-      let formD = new FormData();
-      formD.set("file", blob);
-
-      // 上传
-      // const { code, message, data } = await api.postFile(
-      //   AdUploadFileURL,
-      //   formD
-      // );
-      // if (code === 200) {
-      //   this.stageJson.thumbnails = data[0];
-
-      //   let json = JSON.stringify(this.stageJson);
-      //   let name = this.stageName.name;
-      //   let thumbnails = data[0];
-      //   let m_num = this.stageJson.configGroups.length;
-
-      //   if (thumbnails !== undefined) {
-      //     const params = {
-      //       json,
-      //       name,
-      //       thumbnails,
-      //       m_num
-      //     }
-      //   }
-      // }
+      const canvas = this.$refs.StageTmp.$refs.stage.getStage().toCanvas();
+      // 有跨域的图片 toBlob 会报错
+      const blob = canvas.toBlob(function(blob){
+        console.log(blob)
+        // 存储预览图片
+      }, "image/jpeg", 0.95);
+      // 存储配置
+      localStorage.setItem('_stage_json', JSON.stringify(this.stageJson));
     }
   }
 };

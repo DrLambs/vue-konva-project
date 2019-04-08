@@ -104,7 +104,7 @@ export default {
     getCurrent(index) {
       this.configs.forEach(item => {
         if (parseInt(item["uniqueId"]) === parseInt(index)) {
-          item["disabled"] = true;
+          item.disabled = true;
           this.setConfigType('group');
           this.current(item);
         }

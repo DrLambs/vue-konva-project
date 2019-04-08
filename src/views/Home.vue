@@ -1,17 +1,11 @@
 <template>
   <div class="home">
-    <Header style="color: #fff; font-size: 18px;">Vue-Konva-Project</Header>
-    <CreateTemplate></CreateTemplate>
+    Hello Vue.js
   </div>
 </template>
 
 <script>
-import CreateTemplate from '@/components/Template/CreateTemplate'
-
 export default {
-  name: 'home',
-  components: {
-    CreateTemplate
-  }
+  name: 'home'
 }
 </script>

@@ -2,12 +2,18 @@ import config from "../../libs/config";
 
 const template = {
 	state: {
+		stageConfig: {
+			width: 960,
+			height: 600,
+			url: "http://uploads.5068.com/allimg/1712/144-1G2091PJ9.jpg"
+		},
 		// config 类型: 模板框/装饰
-		configType: '',
+		configType: 'group',
 		// 表单初始化
 		initConfig: config.initConfig,
 		// 表单
 		config: config.config,
+		// 配置列表
 		configList: {
 			group: [],
 			font: []
@@ -49,7 +55,7 @@ const template = {
 			});
 			// 初始化
 			state.initConfig[state.configType].uniqueId = state.uniqueId[state.configType];
-			state.config[state.configType] = state[state.configType];
+			state.config[state.configType] = state.initConfig[state.configType];
 		},
 		// 删除配置
 		remove(state) {
@@ -61,7 +67,7 @@ const template = {
 			});
 			// 初始化
 			state.initConfig[state.configType].uniqueId = state.uniqueId[state.configType];
-			state.config[state.configType] = state[state.configType];
+			state.config[state.configType] = state.initConfig[state.configType];
 		},
 		// 获取当前配置
 		current(state, config) {
@@ -78,11 +84,11 @@ const template = {
 		},
 		move(state, {x, y}) {
 			state.config[state.configType].x = x - state.dragStartX;
-			state.config[state.configType].x = y - state.dragStartY;
+			state.config[state.configType].y = y - state.dragStartY;
 		},
 		end(state, {x, y}) {
 			state.config[state.configType].x = x - state.dragStartX;
-			state.config[state.configType].x = y - state.dragStartY;
+			state.config[state.configType].y = y - state.dragStartY;
 		}
 	}
 }
