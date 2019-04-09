@@ -170,10 +170,6 @@ export default {
       max-height: 100%;
       overflow: hidden;
 
-      .ivu-collapse-item {
-        // max-height: ~"calc(100% - 76px)";
-        // overflow: hidden;
-      }
       .ivu-collapse-content {
         max-height: 360px;
         overflow: hidden auto;
