@@ -13,7 +13,6 @@ export default {
       disabled: false,
       side: 300,
       radius: 150,
-      opacity: 1,
       stroke: 'transparent',
       strokeWidth: 1,
       src: 'http://uploads.5068.com/allimg/1712/151-1G204111207.jpg'
@@ -23,7 +22,7 @@ export default {
       type: 'font',
       x: 200,
       y: 200,
-      width: 238,
+      width: 246,
       height: 149,
       draggable: true,
       rotation: 0,
@@ -32,11 +31,10 @@ export default {
       fontFamily: 'Sans-serif',
       fontSize: 24,
       fontColor: '#70FFF5',
-      opacity: 1,
       disabled: false,
       stroke: 'transparent',
       strokeWidth: 1,
-      src: 'http://i0.hdslb.com/bfs/archive/f4a71b18ad07fc0117589236dd46ee800d793829.jpg'
+      src: 'http://uploads.5068.com/allimg/1712/151-1G2050U519.jpg'
     }
   },
   initConfig: {
@@ -53,7 +51,6 @@ export default {
       disabled: false,
       side: 300,
       radius: 150,
-      opacity: 1,
       stroke: 'transparent',
       strokeWidth: 1,
       src: 'http://uploads.5068.com/allimg/1712/151-1G204111207.jpg'
@@ -63,7 +60,7 @@ export default {
       type: 'font',
       x: 200,
       y: 200,
-      width: 238,
+      width: 246,
       height: 149,
       draggable: true,
       rotation: 0,
@@ -72,11 +69,10 @@ export default {
       fontFamily: 'Sans-serif',
       fontSize: 24,
       fontColor: '#70FFF5',
-      opacity: 1,
       disabled: false,
       stroke: 'transparent',
       strokeWidth: 1,
-      src: 'http://i0.hdslb.com/bfs/archive/f4a71b18ad07fc0117589236dd46ee800d793829.jpg'
+      src: 'http://uploads.5068.com/allimg/1712/151-1G2050U519.jpg'
     }
   }
 }

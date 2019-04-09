@@ -1,6 +1,6 @@
 <template>
   <div class="layer-group">
-    <v-layer>
+    <v-layer v-if="configs.length > 0">
       <v-group
         v-for="(config, index) in configs"
         :key="index"
@@ -67,7 +67,7 @@
             width: config.width - config.strokeWidth * 2,
             height: config.height - config.strokeWidth * 2,
             image: config.img,
-            draggable: !config.draggable,
+            draggable: false,
             opacity: config.opacity,
             stroke: config.stroke,
             strokeWidth: config.strokeWidth
@@ -96,16 +96,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'setConfigType',
-      'current'
-    ]),
+    ...mapMutations(["setConfigType", "current"]),
     // 获取当前 group
     getCurrent(index) {
       this.configs.forEach(item => {
         if (parseInt(item["uniqueId"]) === parseInt(index)) {
           item.disabled = true;
-          this.setConfigType('group');
+          this.setConfigType("group");
           this.current(item);
         }
       });
@@ -125,13 +122,13 @@ export default {
     },
     // 阻止事件冒泡
     dragStartImage(element, e) {
-      e.cancelBubble = true;
+      if (e) e.cancelBubble = true;
     },
     dragMoveImage(element, e) {
-      e.cancelBubble = true;
+      if (e) e.cancelBubble = true;
     },
     dragEndImage(element, e) {
-      e.cancelBubble = true;
+      if (e) e.cancelBubble = true;
     }
   }
 };

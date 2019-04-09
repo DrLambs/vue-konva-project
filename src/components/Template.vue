@@ -1,44 +1,58 @@
 <template>
   <Layout class="create-stage">
     <!-- 创建模板: 配置 -->
-    <Sider
-      class="template-config"
-      style="min-width: 300px; max-width: 300px; width: 300px; overflow-y: auto; overflow-x: hidden;"
-    >
-      <!-- 模版名称 -->
-      <div class="config-item">
-        <Form :model="stageName" :rules="nameRules" :label-width="60">
-          <FormItem prop="name" label="名称">
-            <Input type="text" v-model="stageName.name" :clearable="true" placeholder="请输入模版名称"/>
-          </FormItem>
-        </Form>
-      </div>
-      <!-- 画布配置 -->
-      <div class="config-item">
-        <p class="title">画布配置</p>
-        <Form :model="stageConfig" :rules="stageRules" :label-width="60">
-          <FormItem prop="width" label="宽">
-            <InputNumber v-model="stageConfig.width" :clearable="true" placeholder="请输入画布宽度"></InputNumber>
-          </FormItem>
-          <FormItem prop="height" label="高">
-            <InputNumber v-model="stageConfig.height" :clearable="true" placeholder="请输入画布高度"></InputNumber>
-          </FormItem>
-          <FormItem prop="url" label="URL">
-            <Input type="textarea" :rows="6" v-model="stageConfig.url" placeholder="请输入画布背景图片地址"/>
-          </FormItem>
-        </Form>
-      </div>
-      <!-- 模版框配置 -->
-      <div name="config-item">
-        <p class="title">模版框配置</p>
-        <TemplateConfig configType="group" :typeList="shapeList"></TemplateConfig>
-      </div>
-      <!-- 装饰配置 -->
-      <div name="config-item">
-        <p class="title">装饰配置</p>
-        <TemplateConfig configType="font" :typeList="decorationList"></TemplateConfig>
-      </div>
-      <Button @click="saveStage" style="margin-left: 55px;margin-bottom: 30px;">保存模版</Button>
+    <Sider class="template-config" style="min-width: 300px; max-width: 300px; width: 300px;">
+      <Collapse v-model="collapseValue" accordion>
+        <Panel name="1">
+          模版名称
+          <div class="config-item" slot="content">
+            <Form :model="stageName" :rules="nameRules" :label-width="60">
+              <FormItem prop="name" label="名称">
+                <Input
+                  type="text"
+                  v-model="stageName.name"
+                  :clearable="true"
+                  placeholder="请输入模版名称"
+                />
+              </FormItem>
+            </Form>
+          </div>
+        </Panel>
+        <Panel name="2">
+          画布配置
+          <div class="config-item" slot="content">
+            <Form :model="stageConfig" :rules="stageRules" :label-width="60">
+              <FormItem prop="width" label="宽">
+                <InputNumber v-model="stageConfig.width" :clearable="true" placeholder="请输入画布宽度"></InputNumber>
+              </FormItem>
+              <FormItem prop="height" label="高">
+                <InputNumber v-model="stageConfig.height" :clearable="true" placeholder="请输入画布高度"></InputNumber>
+              </FormItem>
+              <FormItem prop="url" label="URL">
+                <Input
+                  type="textarea"
+                  :rows="6"
+                  v-model="stageConfig.url"
+                  placeholder="请输入画布背景图片地址"
+                />
+              </FormItem>
+            </Form>
+          </div>
+        </Panel>
+        <Panel name="3">
+          模版框配置
+          <div name="config-item" slot="content">
+            <TemplateConfig configType="group" :typeList="shapeList"></TemplateConfig>
+          </div>
+        </Panel>
+        <Panel name="4">
+          装饰配置
+          <div name="config-item" slot="content">
+            <TemplateConfig configType="font" :typeList="decorationList"></TemplateConfig>
+          </div>
+        </Panel>
+      </Collapse>
+      <Button @click="saveStage" style="margin-top: 15px;">保存模版</Button>
     </Sider>
     <!-- 创建模板: 预览 -->
     <Content class="template-sences">
@@ -75,6 +89,7 @@ export default {
       }
     };
     return {
+      collapseValue: "1",
       // 模版名称
       stageName: {
         id: 0,
@@ -141,7 +156,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .create-stage {
   display: flex;
   height: ~"calc(100vh - 64px)";
@@ -151,13 +166,20 @@ export default {
     background-color: #fff;
     padding: 15px;
 
-    .title {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 8px;
+    .ivu-collapse {
+      max-height: 100%;
+      overflow: hidden;
+
+      .ivu-collapse-item {
+        // max-height: ~"calc(100% - 76px)";
+        // overflow: hidden;
+      }
+      .ivu-collapse-content {
+        max-height: 360px;
+        overflow: hidden auto;
+      }
     }
   }
-
   .template-sences {
     height: 100%;
     overflow: hidden;

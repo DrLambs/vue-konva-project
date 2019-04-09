@@ -25,7 +25,21 @@
 <script>
 export default {
   name: "CommonSliderBar",
-  props: ["form", "unit"],
+  props: {
+    form: {
+      type: Object,
+      default() {
+        return {
+          rotation: 0,
+          scale: 1
+        };
+      }
+    },
+    unit: {
+      type: String,
+      default: 'deg'
+    }
+  },
   data() {
     return {
       iTooltip: false,
@@ -41,12 +55,11 @@ export default {
       this.disX = e.clientX;
       this.dragTarget = e.target.parentNode;
 
-      let oSliderWidth = document.querySelector(".slider-box-wrap").clientWidth;
+      let oSliderWidth = document.querySelector(".slider-box-wrap").clientWidth || 176;
       this.dragLeft =
         this.dragLeft === ""
           ? oSliderWidth / 2
           : parseInt(this.dragTarget.style.left);
-
       let oButton = e.target;
       oButton.classList.add("slider-botton-hover");
 

@@ -37,12 +37,12 @@ const template = {
 		setConfigType(state, type) {
 			state.configType = type;
 		},
-		// 获取唯一 id
-		unique(state, id) {
-			state.uniqueId[state.configType] = id;
-		},
 		// 添加配置
 		add(state, config) {
+			// id 增加
+			state.config[state.configType].uniqueId++;
+			state.uniqueId[state.configType] = state.config[state.configType].uniqueId;
+			// 添加
 			state.configList[state.configType].push(config);
 		},
 		// 保存配置

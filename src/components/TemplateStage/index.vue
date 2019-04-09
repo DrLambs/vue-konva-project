@@ -65,15 +65,26 @@ export default {
     })
   },
   created() {
-    const image = new window.Image();
-    image.src = this.stageConfig.url;
-    image.onload = () => {
-      // set image only when it is loaded
-      this.image = image;
-    };
+    this.getStageImage();
+  },
+  watch: {
+    "stageConfig.url": {
+      deep: true,
+      handler() {
+        this.getStageImage();
+      }
+    }
   },
   methods: {
-    ...mapMutations(["getStageImage", "start", "move", "end"]),
+    ...mapMutations(["start", "move", "end"]),
+    getStageImage() {
+      const image = new window.Image();
+      image.src = this.stageConfig.url;
+      image.onload = () => {
+        // set image only when it is loaded
+        this.image = image;
+      };
+    },
     getPosition() {
       let pos = this.$refs.stage.getStage().getPointerPosition();
       return pos;

@@ -1,11 +1,11 @@
 <template>
   <div class="stage-config">
     <!-- 模版框配置 -->
-    <Form :model="config" :label-width="60">
+    <Form :model="config" :label-width="45">
       <!-- 操作按钮 -->
       <FormItem class="group-button">
         <Button @click="addGroup">添加</Button>
-        <Button @click="saveGroup" style="margin: 0 10px;">保存</Button>
+        <Button @click="saveGroup" style="margin: 0 4px;">保存</Button>
         <Button @click="removeGroup">删除</Button>
       </FormItem>
       <!-- 形状/装饰 -->
@@ -15,12 +15,8 @@
         </Select>
       </FormItem>
       <!-- unique id -->
-      <FormItem prop="uniqueId" label="唯一id" style="display: -none;">
-        <InputNumber v-model="config.uniqueId" :disabled="config.disabled" placeholder="id"></InputNumber>
-      </FormItem>
-      <!-- opacity -->
-      <FormItem prop="opacity" label="透明度">
-        <InputNumber v-model="config.opacity"></InputNumber>
+      <FormItem prop="uniqueId" label="ID" style="display: -none;">
+        <InputNumber v-model="config.uniqueId" :disabled="true" placeholder="id"></InputNumber>
       </FormItem>
       <!-- 坐标 X -->
       <FormItem prop="x" label="X">
@@ -143,7 +139,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setConfigType", "add", "save", "remove", "unique"]),
+    ...mapMutations(["setConfigType", "add", "save", "remove"]),
+    // 克隆当前表单对象
+    getCloneConfig() {
+      const clone = _.cloneDeep(this.config);
+      clone.img = util.newImage(clone.src);
+      clone.stroke = "transparent";
+      return clone;
+    },
     // 添加
     addGroup() {
       // 设置当前配置类型: group/font
@@ -153,9 +156,6 @@ export default {
         return;
       } else {
         this.add(this.getCloneConfig());
-        // 记录下一次开始的 uniqueId
-        this.config.uniqueId++;
-        this.unique(this.config.uniqueId);
         util.showSuccess("Success!");
       }
     },
@@ -181,18 +181,9 @@ export default {
         util.showWarning("请选中要删除的图层");
         return;
       } else {
-        if (window.confirm("确认删除所选图层吗?")) {
-          this.remove();
-          util.showSuccess("Success!");
-        }
+        this.remove();
+        util.showSuccess("Success!");
       }
-    },
-    // 克隆当前表单对象
-    getCloneConfig() {
-      const clone = _.cloneDeep(this.config);
-      clone.img = util.newImage(clone.src);
-      clone.stroke = "transparent";
-      return clone;
     }
   }
 };
