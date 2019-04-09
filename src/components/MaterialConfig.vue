@@ -7,8 +7,8 @@
       </FormItem>
 
       <!-- 选择图片 -->
-      <FormItem prop="src" label="选择图片">
-        <Input type="textarea" :rows="6" v-model="config.src" placeholder="图片地址" />
+      <FormItem prop="src" label="图片地址">
+        <Input type="textarea" :rows="6" v-model="config.src" placeholder="图片地址" @on-change="changeImage" />
       </FormItem>
 
       <!-- 坐标 X -->
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import util from "../libs/util.js";
+import { mapState, mapMutations } from "vuex";
 import CommonSliderBar from "./CommonSliderBar";
 
 export default {
@@ -43,21 +44,18 @@ export default {
   components: {
     CommonSliderBar
   },
-  data() {
-    return {
-      // 选择的图片url,id
-      selectedJson: {}
-    };
-  },
   computed: {
     ...mapState({
       config: state => state.material.config
     })
   },
   methods: {
-    // 创建素材选择图片
-    getSelectedUrl(json) {
-      this.selectedJson = json;
+    ...mapMutations(['setUrl']),
+    changeImage() {
+      const img = util.newImage(this.config.src);
+      img.onload = () => {
+        this.setUrl(img);
+      }
     }
   }
 };

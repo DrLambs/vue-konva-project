@@ -93,7 +93,7 @@ export default {
         }
         this.dragTarget.style.left = left + "px";
       };
-      document.onmouseup = e => {
+      document.onmouseup = () => {
         oButton.classList.remove("slider-botton-hover");
         this.iTooltip = false;
         document.onmousemove = null;
