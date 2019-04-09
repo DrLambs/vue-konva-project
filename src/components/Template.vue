@@ -183,6 +183,7 @@ export default {
   .template-sences {
     height: 100%;
     overflow: hidden;
+    padding: 15px;
   }
 }
 </style>

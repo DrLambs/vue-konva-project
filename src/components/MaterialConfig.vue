@@ -1,13 +1,13 @@
 <template>
   <div class="material-config">
-    <Form :model="config" :label-width="60">
+    <Form :model="config" :label-width="45">
       <!-- unique id -->
-      <FormItem prop="uniqueId" label="当前选中">
+      <FormItem prop="uniqueId" label="ID">
         <Input type="text" v-model="config.uniqueId" disabled placeholder="已选中的模版框" />
       </FormItem>
 
       <!-- 选择图片 -->
-      <FormItem prop="src" label="图片地址">
+      <FormItem prop="src" label="地址">
         <Input type="textarea" :rows="6" v-model="config.src" placeholder="图片地址" @on-change="changeImage" />
       </FormItem>
 
@@ -67,6 +67,8 @@ export default {
   border: 1px solid #dcdee2;
   border-radius: 5px;
   padding: 15px;
-  min-width: 300px;
+  min-width: 250px;
+  height: 100%;
+  overflow: hidden auto;
 }
 </style>

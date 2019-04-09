@@ -1,6 +1,6 @@
 <template>
   <Layout class="create-material">
-    <Steps :current="stepCurrent" size="small">
+    <Steps :current="stepCurrent" size="small" class="step">
       <Step title="选择模板"></Step>
       <Step title="编辑图片"></Step>
       <Step title="查看素材"></Step>
@@ -10,16 +10,16 @@
       <Button @click="handleStep">下一步</Button>
     </div>
     <!-- 选择模板 -->
-    <div class="select-template" v-if="stepCurrent === 0">
+    <div class="select-template create-item" v-if="stepCurrent === 0">
       <h3 class="title">当前模板: {{ currentTemplate.name }}</h3>
       <p>由于当前只存储一个模板，默认选择这个模板。</p>
     </div>
     <!-- 编辑图片 -->
-    <div class="edit-image" v-if="stepCurrent === 1">
+    <div class="edit-image create-item" v-if="stepCurrent === 1">
       <h3 class="title">编辑图片</h3>
       <div class="edit-image-wrap">
         <MaterialConfig></MaterialConfig>
-        <Card>
+        <Card class="stage-card">
           <p slot="title">{{ currentTemplate.name }}</p>
           <div slot="extra">
             <i-switch v-model="switchTop" style="margin-right: 10px;"/>
@@ -36,7 +36,7 @@
       </div>
     </div>
     <!-- 查看素材 -->
-    <div class="view-material" v-if="stepCurrent === 2">
+    <div class="view-material create-item" v-if="stepCurrent === 2">
       <img :src="dataSrc">
     </div>
   </Layout>
@@ -128,18 +128,29 @@ export default {
 </script>
 
 <style lang="less">
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
 .create-material {
   height: ~"calc(100% - 64px)";
-  overflow: auto;
+  overflow: hidden;
   padding: 30px;
+  position: relative;
 
   &.ivu-layout {
     background: #fff;
   }
+  .step {
+    margin-bottom: 15px;
+  }
   .next-step {
-    margin-top: 30px;
-    margin-right: 120px;
-    text-align: right;
+    position: absolute;
+    top: 24px;
+    right: 15%;
+  }
+  .create-item {
+    height: ~"calc(100% - 54px)";
   }
   .select-template {
     text-align: center;
@@ -171,6 +182,16 @@ export default {
   .edit-image-wrap {
     display: flex;
     justify-content: space-between;
+    height: ~"calc(100% - 36px)";
+  }
+  .stage-card {
+    width: ~"calc(100% - 240px)";
+    padding: 0;
+
+    .ivu-card-body {
+      height: ~"calc(100% - 52px)";
+      overflow: auto;
+    }
   }
 }
 </style>
