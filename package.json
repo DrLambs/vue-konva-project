@@ -10,7 +10,7 @@
   "dependencies": {
     "iview": "^3.3.3",
     "konva": "^3.2.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "vue": "^2.6.6",
     "vue-konva": "^2.0.3",
     "vue-router": "^3.0.1",
